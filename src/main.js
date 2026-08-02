@@ -2,6 +2,7 @@ import { getSession, onAuthStateChange, signOut } from './auth/authGuard.js';
 import { renderLogin } from './pages/login.js';
 import { renderHome } from './pages/home.js';
 import { renderExamesImagem } from './pages/examesImagem.js';
+import { renderMedicos } from './pages/medicos.js';
 import { registrarRota, definirRotaPadrao, iniciarRouter, navegarPara } from './router.js';
 
 const appEl = document.getElementById('app');
@@ -25,6 +26,7 @@ function renderAuthenticated() {
 
   registrarRota('home', renderHome, { titulo: 'Início' });
   registrarRota('exames', renderExamesImagem, { titulo: 'Exames de imagem' });
+  registrarRota('medicos', renderMedicos, { titulo: 'Médicos' });
   definirRotaPadrao('home');
 
   iniciarRouter(conteudoEl);

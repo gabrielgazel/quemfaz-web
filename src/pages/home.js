@@ -17,7 +17,7 @@ const PAGINAS = [
     titulo: 'Médicos',
     descricao: 'Cadastro de médicos, agenda e local de atendimento.',
     hash: 'medicos',
-    disponivel: false,
+    disponivel: true,
   },
   {
     titulo: 'Avisos',

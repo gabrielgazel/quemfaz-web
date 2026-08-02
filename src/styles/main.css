@@ -172,6 +172,154 @@ h1, h2, h3 {
   color: #666;
 }
 
+.btn-primary {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-family: var(--font-main);
+  cursor: pointer;
+}
+
+.btn-secondary {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  font-family: var(--font-main);
+  cursor: pointer;
+}
+
+.medicos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medicos-header h1,
+.medicos-page h1 {
+  color: var(--color-primary);
+  margin-bottom: 0;
+}
+
+.medicos-caption {
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.medicos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.medico-card {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.medico-card h3 {
+  margin: 0 0 0.5rem;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+}
+
+.medico-card p {
+  margin: 0.15rem 0;
+  font-size: 0.85rem;
+}
+
+.medico-obs {
+  color: #666;
+  font-style: italic;
+}
+
+.medico-card .btn-secondary {
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+/* ── Modal de medico ─────────────────────────────────────────────────── */
+
+#medico-dialog {
+  border: none;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: min(480px, 90vw);
+  font-family: var(--font-main);
+}
+
+#medico-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+#medico-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+#medico-form h2 {
+  margin: 0 0 0.5rem;
+}
+
+#medico-form input[type='text'],
+#medico-form input[type='number'],
+#medico-form textarea {
+  font-family: var(--font-main);
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.dias-agenda {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.dia-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.ordem-radios {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.campos-lado-a-lado {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.medico-form-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.medico-form-acoes .btn-secondary:first-child {
+  margin-right: auto;
+}
+
 .exames-page h1 {
   color: var(--color-primary);
 }

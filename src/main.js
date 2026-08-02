@@ -1,21 +1,23 @@
 import { getSession, onAuthStateChange, signOut } from './auth/authGuard.js';
 import { renderLogin } from './pages/login.js';
+import { renderExamesImagem } from './pages/examesImagem.js';
 
 const appEl = document.getElementById('app');
 
 function renderAuthenticated() {
   appEl.innerHTML = `
-    <div class="authenticated-box">
-      <p>Login realizado com sucesso.</p>
-      <p>Proxima fase: tela de consulta de exames.</p>
+    <header class="app-header">
       <button id="logout-btn">Sair</button>
-    </div>
+    </header>
+    <div id="conteudo"></div>
   `;
 
   appEl.querySelector('#logout-btn').addEventListener('click', async () => {
     await signOut();
     render();
   });
+
+  renderExamesImagem(appEl.querySelector('#conteudo'));
 }
 
 async function render() {

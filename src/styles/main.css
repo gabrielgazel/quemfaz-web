@@ -27,7 +27,7 @@ h1, h2, h3 {
 }
 
 #app {
-  max-width: 720px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
@@ -90,4 +90,86 @@ h1, h2, h3 {
 .authenticated-box {
   text-align: center;
   margin-top: 4rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem 0;
+}
+
+.app-header button {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: 4px;
+  font-family: var(--font-main);
+  cursor: pointer;
+}
+
+.exames-page h1 {
+  color: var(--color-primary);
+}
+
+.exames-filtros {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.exames-filtros input[type='search'] {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem;
+  font-family: var(--font-main);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.exames-filtros select {
+  padding: 0.5rem;
+  font-family: var(--font-main);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.exames-status {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.exames-status.error {
+  color: var(--color-error);
+}
+
+.exames-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.exames-tabela th,
+.exames-tabela td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.exames-tabela th {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+}
+
+.badge-preparo {
+  background-color: #fff3cd;
+  color: #7a5c00;
 }

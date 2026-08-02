@@ -1,21 +1,37 @@
-import { supabase } from './supabaseClient.js';
+import { getSession, onAuthStateChange, signOut } from './auth/authGuard.js';
+import { renderLogin } from './pages/login.js';
 
-const statusEl = document.getElementById('status');
+const appEl = document.getElementById('app');
 
-async function checkConnection() {
-  // Chamada leve so para confirmar que a URL/chave do Supabase estao
-  // corretas. Nao depende de estar logado (RLS pode bloquear os dados,
-  // mas a chamada em si deve responder sem erro de rede/config).
-  const { error } = await supabase.auth.getSession();
+function renderAuthenticated() {
+  appEl.innerHTML = `
+    <div class="authenticated-box">
+      <p>Login realizado com sucesso.</p>
+      <p>Proxima fase: tela de consulta de exames.</p>
+      <button id="logout-btn">Sair</button>
+    </div>
+  `;
 
-  if (error) {
-    statusEl.textContent = `Erro ao conectar no Supabase: ${error.message}`;
-    statusEl.classList.add('error');
-    return;
-  }
-
-  statusEl.textContent = 'Conexao com Supabase OK. Proxima fase: tela de login.';
-  statusEl.classList.add('ok');
+  appEl.querySelector('#logout-btn').addEventListener('click', async () => {
+    await signOut();
+    render();
+  });
 }
 
-checkConnection();
+async function render() {
+  const session = await getSession();
+
+  if (session) {
+    renderAuthenticated();
+  } else {
+    renderLogin(appEl, render);
+  }
+}
+
+// Re-renderiza automaticamente se a sessao mudar (ex: token expirar,
+// logout em outra aba).
+onAuthStateChange(() => {
+  render();
+});
+
+render();

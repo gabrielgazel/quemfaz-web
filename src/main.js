@@ -1,23 +1,33 @@
 import { getSession, onAuthStateChange, signOut } from './auth/authGuard.js';
 import { renderLogin } from './pages/login.js';
+import { renderHome } from './pages/home.js';
 import { renderExamesImagem } from './pages/examesImagem.js';
+import { registrarRota, definirRotaPadrao, iniciarRouter, navegarPara } from './router.js';
 
 const appEl = document.getElementById('app');
 
 function renderAuthenticated() {
   appEl.innerHTML = `
     <header class="app-header">
+      <button id="home-btn" class="link-btn">QuemFaz</button>
       <button id="logout-btn">Sair</button>
     </header>
     <div id="conteudo"></div>
   `;
 
+  appEl.querySelector('#home-btn').addEventListener('click', () => navegarPara('home'));
   appEl.querySelector('#logout-btn').addEventListener('click', async () => {
     await signOut();
     render();
   });
 
-  renderExamesImagem(appEl.querySelector('#conteudo'));
+  const conteudoEl = appEl.querySelector('#conteudo');
+
+  registrarRota('home', renderHome, { titulo: 'Início' });
+  registrarRota('exames', renderExamesImagem, { titulo: 'Exames de imagem' });
+  definirRotaPadrao('home');
+
+  iniciarRouter(conteudoEl);
 }
 
 async function render() {

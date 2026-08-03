@@ -1,9 +1,12 @@
 import { buscarExames } from '../data/exames.js';
+import { sanitizarTermoBusca } from '../utils/validacao.js';
 
 const DEBOUNCE_MS = 300;
 
 /**
  * Renderiza a pagina "Exames de imagem" dentro do elemento informado.
+ * A busca agora é feita ao vivo na API pública da ANS (código/nome
+ * oficiais); "Quem faz" e "Tem preparo?" vêm do overlay local.
  */
 export function renderExamesImagem(container) {
   container.innerHTML = `
@@ -14,7 +17,8 @@ export function renderExamesImagem(container) {
         <input
           type="search"
           id="busca-exame"
-          placeholder="Buscar por código ou nome..."
+          maxlength="100"
+          placeholder="Buscar por código TUSS ou nome (ex: mamas)..."
         />
         <select id="filtro-preparo">
           <option value="todos">Todos</option>
@@ -36,11 +40,20 @@ export function renderExamesImagem(container) {
   let debounceTimer = null;
 
   async function carregar() {
-    statusEl.textContent = 'Carregando...';
+    const termo = sanitizarTermoBusca(inputBusca.value);
+
+    if (termo.length < 2) {
+      statusEl.textContent = 'Digite ao menos 2 caracteres para buscar.';
+      statusEl.classList.remove('error');
+      listaEl.innerHTML = '';
+      return;
+    }
+
+    statusEl.textContent = 'Consultando a ANS...';
     statusEl.classList.remove('error');
 
     const { dados, error } = await buscarExames({
-      termoBusca: inputBusca.value,
+      termoBusca: termo,
       filtroPreparo: selectPreparo.value,
     });
 
@@ -52,7 +65,7 @@ export function renderExamesImagem(container) {
     }
 
     statusEl.textContent = `${dados.length} exame(s) encontrado(s).`;
-    renderTabela(listaEl, dados);
+    renderResultados(listaEl, dados);
   }
 
   inputBusca.addEventListener('input', () => {
@@ -65,40 +78,33 @@ export function renderExamesImagem(container) {
   carregar();
 }
 
-function renderTabela(container, exames) {
+function renderResultados(container, exames) {
   if (exames.length === 0) {
     container.innerHTML = '<p>Nenhum exame encontrado.</p>';
     return;
   }
 
-  const linhas = exames
-    .map(
-      (e) => `
-        <tr>
-          <td>${escapeHtml(e.codigo)}</td>
-          <td>${escapeHtml(e.nome)}</td>
-          <td>${escapeHtml(e.quemFaz || '—')}</td>
-          <td>${e.temPreparo ? '<span class="badge badge-preparo">Sim</span>' : 'Não'}</td>
-          <td>${escapeHtml(e.observacoes || '—')}</td>
-        </tr>
-      `
-    )
-    .join('');
+  container.innerHTML = exames
+    .map((e) => {
+      const preparoTexto = e.preparoDefinido ? (e.temPreparo ? 'Sim' : 'Não') : 'Não informado';
+      const statusVigencia = e.vigente
+        ? ''
+        : '<span class="badge badge-descontinuado">Código descontinuado na ANS</span>';
 
-  container.innerHTML = `
-    <table class="exames-tabela">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Nome</th>
-          <th>Quem faz</th>
-          <th>Preparo</th>
-          <th>Observações</th>
-        </tr>
-      </thead>
-      <tbody>${linhas}</tbody>
-    </table>
-  `;
+      return `
+        <article class="exame-resultado-card">
+          <div class="exame-resultado-topo">
+            <code>${escapeHtml(e.codigo)}</code>
+            <h3>${escapeHtml(e.nome)}</h3>
+            ${statusVigencia}
+          </div>
+          <p><strong>Quem faz:</strong> ${escapeHtml(e.quemFaz || 'Nenhum médico vinculado ainda')}</p>
+          <p><strong>Tem preparo?</strong> ${preparoTexto}</p>
+          ${e.observacoes ? `<p class="exame-obs">${escapeHtml(e.observacoes)}</p>` : ''}
+        </article>
+      `;
+    })
+    .join('');
 }
 
 function escapeHtml(texto) {

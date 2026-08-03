@@ -13,5 +13,18 @@
   },
   "devDependencies": {
     "vite": "^5.4.0"
-  }
+  },
+  "description": "",
+  "main": "vite.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielgazel/quemfaz-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielgazel/quemfaz-web/issues"
+  },
+  "homepage": "https://github.com/gabrielgazel/quemfaz-web#readme"
 }

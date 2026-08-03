@@ -1,13 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300..700;1,300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
 
 :root {
   --color-primary: #1B5E3A;
-  --color-bg: #FAFAFA;
-  --color-text: #1A1A1A;
-  --color-error: #B3261E;
-  --font-main: 'Inter', sans-serif;
-  --font-heading: 'Poppins', sans-serif;
+  --color-bg: #F5F1E8;
+  --color-surface: #FFFFFF;
+  --color-text: #0D0D0D;
+  --color-error: #E4002B;
+  --color-accent: #FFD400;
+  --border-w: 3px;
+  --shadow-offset: 6px;
+  --font-main: 'Space Mono', monospace;
+  --font-heading: 'Archivo Black', sans-serif;
 }
 
 * {
@@ -23,7 +27,9 @@ body {
 
 h1, h2, h3 {
   font-family: var(--font-heading);
-  font-weight: 600;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
 }
 
 #app {
@@ -34,57 +40,113 @@ h1, h2, h3 {
 
 #status.ok {
   color: var(--color-primary);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 #status.error {
   color: var(--color-error);
-  font-weight: 600;
+  font-weight: 700;
+}
+
+/* ── Base: bordas grossas, sombra dura sem blur, zero radius ────────── */
+
+.login-box,
+.home-card,
+.medico-card,
+#medico-dialog,
+.login-box input,
+#medico-form input[type='text'],
+#medico-form input[type='number'],
+#medico-form textarea,
+.exames-filtros input[type='search'],
+.exames-filtros select,
+button {
+  border-radius: 0;
 }
 
 .login-box {
-  max-width: 320px;
+  max-width: 340px;
   margin: 4rem auto 0;
+  background: var(--color-surface);
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-text);
+  padding: 1.5rem;
 }
 
 .login-box h1 {
-  color: var(--color-primary);
+  color: var(--color-text);
   text-align: center;
-  /* font-family herdado da regra global h1,h2,h3 (Poppins) */
+  background: var(--color-accent);
+  padding: 0.5rem;
+  margin: -1.5rem -1.5rem 1.5rem;
+  border-bottom: var(--border-w) solid var(--color-text);
 }
 
 .login-box form {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+
+.login-box label,
+#medico-form label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .login-box input {
   font-family: var(--font-main);
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.6rem;
+  border: var(--border-w) solid var(--color-text);
+  background: var(--color-surface);
+}
+
+.login-box input:focus,
+#medico-form input:focus,
+#medico-form textarea:focus,
+.exames-filtros input:focus,
+.exames-filtros select:focus {
+  outline: none;
+  box-shadow: 3px 3px 0 var(--color-primary);
 }
 
 .login-box button,
 .authenticated-box button {
   margin-top: 0.5rem;
-  padding: 0.6rem;
+  padding: 0.7rem;
   background-color: var(--color-primary);
   color: white;
-  border: none;
-  border-radius: 4px;
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
   font-family: var(--font-main);
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.login-box button:active:not(:disabled),
+.authenticated-box button:active:not(:disabled),
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--color-text);
 }
 
 .login-box button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .login-box .error {
   color: var(--color-error);
+  font-weight: 700;
+  border: var(--border-w) solid var(--color-error);
+  padding: 0.5rem;
+  background: #FFEAEA;
 }
 
 .authenticated-box {
@@ -96,99 +158,113 @@ h1, h2, h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-bottom: var(--border-w) solid var(--color-text);
 }
 
 .app-header .link-btn {
   background: none;
   border: none;
-  color: var(--color-primary);
+  color: var(--color-accent);
   font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   padding: 0;
 }
 
 .app-header button:not(.link-btn) {
   padding: 0.5rem 1rem;
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 4px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: var(--border-w) solid var(--color-bg);
   font-family: var(--font-main);
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .home-page h1 {
-  color: var(--color-primary);
+  color: var(--color-text);
+  -webkit-text-stroke: 1px var(--color-text);
 }
 
 .home-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .home-card {
   position: relative;
   text-align: left;
   padding: 1.25rem;
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  background-color: var(--color-surface);
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 var(--color-text);
   cursor: pointer;
   font-family: var(--font-main);
-  transition: box-shadow 0.15s ease, transform 0.15s ease;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
 .home-card:not(:disabled):hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
+  box-shadow: 8px 8px 0 var(--color-primary);
 }
 
 .home-card h2 {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.5rem;
   font-size: 1.05rem;
-  color: var(--color-primary);
+  color: var(--color-text);
 }
 
 .home-card p {
   margin: 0;
   font-size: 0.85rem;
-  color: #555;
+  color: #333;
 }
 
 .home-card-disabled {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
+  box-shadow: none;
 }
 
 .badge-em-breve {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  background-color: #eee;
-  color: #666;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+  border: 2px solid var(--color-text);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
 }
 
 .btn-primary {
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.1rem;
   background-color: var(--color-primary);
   color: white;
-  border: none;
-  border-radius: 4px;
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
   font-family: var(--font-main);
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
 .btn-secondary {
-  padding: 0.5rem 1rem;
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
-  border-radius: 4px;
+  padding: 0.5rem 1.1rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 4px 4px 0 var(--color-text);
   font-family: var(--font-main);
+  font-weight: 700;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -199,73 +275,79 @@ h1, h2, h3 {
 }
 
 .medicos-header h1,
-.medicos-page h1 {
-  color: var(--color-primary);
+.medicos-page h1,
+.exames-page h1 {
+  color: var(--color-text);
   margin-bottom: 0;
 }
 
 .medicos-caption {
-  color: #666;
-  margin-top: 0.25rem;
+  color: #444;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
 }
 
 .medicos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: 1.25rem;
+  margin-top: 1.25rem;
 }
 
 .medico-card {
-  background-color: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  background-color: var(--color-surface);
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 5px 5px 0 var(--color-text);
   padding: 1rem;
 }
 
 .medico-card h3 {
   margin: 0 0 0.5rem;
-  color: var(--color-primary);
+  color: var(--color-text);
   font-family: var(--font-heading);
+  font-size: 1rem;
 }
 
 .medico-card p {
-  margin: 0.15rem 0;
+  margin: 0.2rem 0;
   font-size: 0.85rem;
 }
 
 .medico-obs {
-  color: #666;
-  font-style: italic;
+  color: #444;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 0.5rem;
 }
 
 .medico-card .btn-secondary {
   margin-top: 0.75rem;
   width: 100%;
+  box-shadow: 3px 3px 0 var(--color-text);
 }
 
 /* ── Modal de medico ─────────────────────────────────────────────────── */
 
 #medico-dialog {
-  border: none;
-  border-radius: 8px;
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 8px 8px 0 var(--color-text);
   padding: 1.5rem;
   width: min(480px, 90vw);
   font-family: var(--font-main);
 }
 
 #medico-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(13, 13, 13, 0.6);
 }
 
 #medico-form {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.4rem;
 }
 
 #medico-form h2 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
 }
 
 #medico-form input[type='text'],
@@ -273,8 +355,7 @@ h1, h2, h3 {
 #medico-form textarea {
   font-family: var(--font-main);
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: var(--border-w) solid var(--color-text);
   width: 100%;
 }
 
@@ -288,11 +369,11 @@ h1, h2, h3 {
 .dia-chip {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
   padding: 0.3rem 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 999px;
-  font-size: 0.85rem;
+  border: 2px solid var(--color-text);
+  font-size: 0.8rem;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -300,7 +381,8 @@ h1, h2, h3 {
   display: flex;
   gap: 1rem;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .campos-lado-a-lado {
@@ -318,38 +400,37 @@ h1, h2, h3 {
 
 .medico-form-acoes .btn-secondary:first-child {
   margin-right: auto;
-}
-
-.exames-page h1 {
-  color: var(--color-primary);
+  background: var(--color-error);
+  color: white;
 }
 
 .exames-filtros {
   display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
   flex-wrap: wrap;
 }
 
 .exames-filtros input[type='search'] {
   flex: 1;
   min-width: 200px;
-  padding: 0.5rem;
+  padding: 0.6rem;
   font-family: var(--font-main);
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: var(--border-w) solid var(--color-text);
 }
 
 .exames-filtros select {
-  padding: 0.5rem;
+  padding: 0.6rem;
   font-family: var(--font-main);
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-weight: 700;
+  border: var(--border-w) solid var(--color-text);
+  background: var(--color-surface);
 }
 
 .exames-status {
-  color: #666;
+  color: #444;
   font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .exames-status.error {
@@ -359,29 +440,217 @@ h1, h2, h3 {
 .exames-tabela {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  border: var(--border-w) solid var(--color-text);
 }
 
 .exames-tabela th,
 .exames-tabela td {
   text-align: left;
-  padding: 0.5rem;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 0.6rem;
+  border: 1px solid var(--color-text);
 }
 
 .exames-tabela th {
-  color: var(--color-primary);
-  font-weight: 600;
+  color: var(--color-bg);
+  background: var(--color-text);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 
 .badge {
   display: inline-block;
   padding: 0.15rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
+  border: 2px solid var(--color-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
 .badge-preparo {
-  background-color: #fff3cd;
-  color: #7a5c00;
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.badge-vigente {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.badge-descontinuado {
+  background-color: var(--color-error);
+  color: white;
+}
+
+/* ── Cards de resultado de exame (busca ao vivo na ANS) ──────────────── */
+
+.exame-resultado-card {
+  background: var(--color-surface);
+  border: var(--border-w) solid var(--color-text);
+  box-shadow: 5px 5px 0 var(--color-text);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.exame-resultado-topo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.4rem;
+}
+
+.exame-resultado-topo code {
+  font-weight: 700;
+  background: var(--color-bg);
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--color-text);
+}
+
+.exame-resultado-topo h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.exame-resultado-card p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.exame-obs {
+  color: #444;
+  border-left: 3px solid var(--color-accent);
+  padding-left: 0.5rem;
+  margin-top: 0.5rem !important;
+}
+
+/* ── Widget "Exames vinculados" no formulário de médico ──────────────── */
+
+.exames-vinculo-section {
+  border: var(--border-w) dashed var(--color-text);
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  position: relative;
+}
+
+.exames-vinculo-section > label {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+#m-exames-busca {
+  width: 100%;
+  font-family: var(--font-main);
+  padding: 0.5rem;
+  border: var(--border-w) solid var(--color-text);
+}
+
+#m-exames-busca:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+.exames-busca-resultados {
+  position: relative;
+  margin-top: 0.4rem;
+  border: 2px solid var(--color-text);
+  background: var(--color-surface);
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.exame-busca-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  background: var(--color-surface);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.exame-busca-item:last-child {
+  border-bottom: none;
+}
+
+.exame-busca-item:hover {
+  background: var(--color-accent);
+}
+
+.exame-busca-item code {
+  font-weight: 700;
+}
+
+.exames-busca-erro,
+.exames-busca-vazio {
+  margin: 0;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.exames-busca-erro {
+  color: var(--color-error);
+}
+
+.exames-vinculados-lista {
+  list-style: none;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.exames-vinculados-lista li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-text);
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.exames-vinculo-aviso {
+  color: #666;
+  font-style: italic;
+  border: none !important;
+}
+
+.exames-vinculados-lista code {
+  font-weight: 700;
+  background: var(--color-bg);
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--color-text);
+}
+
+.exame-preparo-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.exame-remover-btn {
+  background: var(--color-error);
+  color: white;
+  border: 2px solid var(--color-text);
+  width: 1.6rem;
+  height: 1.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.exames-vinculo-msg {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-error);
 }
